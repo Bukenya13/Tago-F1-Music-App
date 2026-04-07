@@ -1,0 +1,14 @@
+{
+  "name": "music-discovery-app",
+  "version": "1.0.0",
+  "description": "Music discovery app powered by Last.fm API",
+  "type": "module",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  }
+}
