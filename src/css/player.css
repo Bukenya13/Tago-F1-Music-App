@@ -332,6 +332,12 @@
     border-color: rgba(255, 65, 108, 0.5);
 }
 
+/* YouTube button special - red gradient */
+#youtube-link:hover {
+    background: rgba(255, 0, 0, 0.3);
+    border-color: rgba(255, 0, 0, 0.5);
+}
+
 /* Hidden YouTube container - NOW VISIBLE AS MINI PLAYER */
 #youtube-player-container {
     position: fixed !important;

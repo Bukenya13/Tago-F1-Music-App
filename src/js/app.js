@@ -4,6 +4,7 @@ import { Footer } from './footer.js';
 import { Home } from './home.js';
 import { lastfmApi } from './api/lastfm.js';
 import { itunesApi } from './api/itunes.js';
+import { youtubeApi, YouTubePlayer } from './api/youtube.js';
 import { APP_NAME } from './utils/constants.js';
 
 // Music Player with Audio Playback
@@ -164,6 +165,7 @@ class MusicPlayer {
                         <button id="add-to-favorites" class="action-btn">❤ Add</button>
                         <a id="lastfm-link" href="#" target="_blank" class="action-btn">📟 Last.fm</a>
                         <a id="itunes-link" href="#" target="_blank" class="action-btn">🎵 iTunes</a>
+                        <a id="youtube-link" href="#" target="_blank" class="action-btn">📺 YouTube</a>
                     </div>
                 </div>
             </div>
@@ -268,6 +270,23 @@ class MusicPlayer {
 
         // Set external links
         document.getElementById('lastfm-link').href = track.url || `https://www.last.fm/music/${encodeURIComponent(track.artist)}/_/${encodeURIComponent(track.name)}`;
+
+        // Search for YouTube video and set link
+        try {
+            const youtubeResult = await youtubeApi.searchTrack(track.name, track.artist);
+            if (youtubeResult) {
+                if (youtubeResult.isFallback) {
+                    document.getElementById('youtube-link').href = youtubeResult.searchUrl;
+                } else {
+                    document.getElementById('youtube-link').href = `https://www.youtube.com/watch?v=${youtubeResult.videoId}`;
+                }
+            } else {
+                document.getElementById('youtube-link').href = `https://www.youtube.com/results?search_query=${encodeURIComponent(track.name + ' ' + track.artist)}`;
+            }
+        } catch (error) {
+            console.error('YouTube search error:', error);
+            document.getElementById('youtube-link').href = `https://www.youtube.com/results?search_query=${encodeURIComponent(track.name + ' ' + track.artist)}`;
+        }
 
         // Stop any current playback
         if (this.audioElement) {
